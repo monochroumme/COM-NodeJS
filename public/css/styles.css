@@ -1,0 +1,134 @@
+#com {
+	color: black;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	text-align: center;
+}
+
+h2 {
+	padding-top: 60px;
+}
+
+h7 {
+	color: gray;
+}
+
+.servant, .client {
+	width: 150px;
+}
+
+div.input-group {
+	display: inline-flex;
+	width: 250px;
+	height: 40px;
+}
+
+input.input-name {
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+}
+
+img.card-img-top {
+	height: 10%;
+	display: none;
+}
+
+button.add-to-cart {
+	width: 110px;
+}
+
+button.apply-name, button.edit-name {
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+}
+
+button.apply-name {
+	width: 40px;
+}
+
+button.edit-name {
+	width: 50px;
+	padding: 6px;
+}
+
+button.btn-cart, button.btn-qm {
+	display: inline-flex;
+	width: 40px;
+	height: 40px;
+	border-radius: 20px;
+	padding: 6px;
+	margin: 0 15px;
+}
+
+button.btn-cart {
+	float: left;
+}
+
+button.btn-qm {
+	float: right;
+}
+
+button.order, button.edit {
+	margin-top: 8px;
+	height: 30px;
+	line-height: 0;
+	text-align: center;
+	display: none;
+}
+
+li.list-group-item.cart-order {
+	display: inline;
+	padding-left: 42px;
+}
+
+button.delete-order {
+	float: right;
+	width: 22px;
+	height: 22px;
+	padding: 0;
+	line-height: 0;
+	border-radius: 11px;
+}
+						
+.client-panel, .servant-panel, .card-columns.menu, button.menu {
+	display: none;
+}
+
+.my-name-panel {
+	padding-bottom: 20px;
+}
+
+div.popover {
+	width: 500px;
+	max-width: 500px;
+}
+
+div.popover-body {
+	text-align: center;
+	max-width: 500px;
+	width: 500px;
+}
+
+#username-input {
+	margin-top: 60px;
+}
+
+div.form-group {
+	margin-bottom: 10px;
+}
+
+input.servant-input {
+	text-align: center;
+	width: 200px;
+	height: 40px;
+	margin: 0 auto;
+}
+
+.form-group label {
+	margin-top: 10px;
+	margin-bottom: 2px;
+}
+
+button.servant-login {
+	width: 100px;
+}

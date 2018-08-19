@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>COM</title>
+		<link rel="stylesheet" type="text/css" href="css/styles.css">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	</head>
+	<body>
+		<header>
+			<h1 id="com">Coffee Order Machine</h1>
+		</header>
+
+		<div class="container col-sm-12 text-center">
+			<h2>I am</h2>
+			<div class="btn-group" role="group" aria-label="Who I am">
+				<button type="button" class="btn btn-success client">A client</button>
+				<button type="button" class="btn btn-danger servant">A servant</button>
+			</div>
+		</div>
+
+		<div class="container text-center client-panel">
+			<h2>My name is</h2>
+			
+			<div class="my-name-panel">
+				<button type="button" class="btn btn-dark btn-cart menu" data-container="body" data-toggle="popover" data-placement="bottom">
+					<img src="icons/cart.png" width="24px" height="24px">
+				</button>
+		
+				<div class="input-group">
+					<input type="text" class="form-control input-name" placeholder="Your name" aria-label="Name" required>
+					<button type="button" class="btn btn-success apply-name">&check;</button>
+				</div>
+
+				<button type="button" class="btn btn-dark btn-qm menu" data-container="body" data-toggle="popover" data-placement="left">
+					<img src="icons/qm.png" width="24px" height="24px">
+				</button>
+			</div>
+
+			<div class="container card-columns menu">
+				<div class="card border-dark">
+					<img class="card-img-top" src="pics/latte.jpg" alt="Card image cap">
+					<div class="card-body">
+						<h4 class="card-title">Latte</h4>
+						<button type="button" class="btn btn-primary add-to-cart" data-coffeetype="Latte">Add to Cart</button>
+					</div>
+				</div>
+
+				<div class="card border-dark">
+					<img class="card-img-top" src="pics/moccaccino.jpg" alt="Card image cap">
+					<div class="card-body">
+						<h4 class="card-title">Moccaccino</h4>
+						<button type="button" class="btn btn-primary add-to-cart" data-coffeetype="Moccaccino">Add to Cart</button>
+					</div>
+				</div>
+
+				<div class="card border-dark">
+					<img class="card-img-top" src="pics/bicerin.jpg" alt="Card image cap">
+					<div class="card-body">
+						<h4 class="card-title">Bicerin</h4>
+						<button type="button" class="btn btn-primary add-to-cart" data-coffeetype="Bicerin">Add to Cart</button>
+					</div>
+				</div>
+
+				<div class="card border-dark">
+					<img class="card-img-top" src="pics/cappuccino.jpg" alt="Card image cap">
+					<div class="card-body">
+						<h4 class="card-title">Cappuccino</h4>
+						<button type="button" class="btn btn-primary add-to-cart" data-coffeetype="Cappuccino">Add to Cart</button>
+					</div>
+				</div>
+
+				<div class="card border-dark">
+					<img class="card-img-top" src="pics/americano.jpg" alt="Card image cap">
+					<div class="card-body">
+						<h4 class="card-title">Americano</h4>
+						<button type="button" class="btn btn-primary add-to-cart" data-coffeetype="Americano">Add to Cart</button>
+					</div>
+				</div>
+
+				<div class="card border-dark">
+					<img class="card-img-top" src="pics/espresso.jpg" alt="Card image cap">
+					<div class="card-body">
+						<h4 class="card-title">Espresso</h4>
+						<button type="button" class="btn btn-primary add-to-cart" data-coffeetype="Espresso">Add to Cart</button>
+					</div>
+				</div>
+
+				<div class="card border-dark">
+					<div class="card-body">
+						<p class="card-text">Thank you for coming!<br>&copy; Nadir Abdullayev 2018</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container text-center servant-panel">
+			<form id="servant-login-form">
+				<div class="form-group">
+					<label for="servant-username" id='username-input'>Username</label>
+					<input type="text" class="form-control servant-input" placeholder="Enter username">
+				</div>
+				<div class="form-group">
+					<label for="servant-password">Password</label>
+					<input type="password" class="form-control servant-input" placeholder="Enter password">
+				</div>
+				<button type="button" class="btn btn-primary servant-login">Log in</button>
+			</form>
+		</div>
+
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="js/script.js"></script>
+		<script type="text/javascript" src="js/client.js"></script>
+	</body>
+</html>
+
+<!-- cart in the popover -->
+<div id="cart-content" style="display: none">
+	<div>
+		<h5>Orders</h5>
+		<h7 class="no-orders">No Orders</h7>
+		<ul class="list-group list-group-flush cart-order-list"></ul>
+		<button type="button" class="btn btn-success order">Order</button>
+	</div>
+</div>
+
+<!-- ? in the popover -->
+<div id="qm-content" style="display: none">
+	<div class="qm">
+		<h5>Help</h5>
+		<p>
+			<!-- TODO -->
+		</p>
+	</div>
+</div>
