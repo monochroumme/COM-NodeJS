@@ -1,5 +1,6 @@
 let ordersAmount = 0;
 let orderID = -1;
+let clientID;
 let committed = false;
 let name;
 
@@ -29,7 +30,7 @@ $(function() {
             $('.order').show();
         }
         // if we've already committed the orders before and there isn't the edit button already, then change the order button to edit button
-        if (!$('.edit').length && committed) swapButtons("Commit the changes", 'btn-success', 'btn-primary', 'order', 'edit');
+        if (!$('.edit').length && committed) swapButtons("Update", 'btn-success', 'btn-primary', 'order', 'edit');
         $('.edit').prop('disabled', false);
     });
 
@@ -49,13 +50,13 @@ $(function() {
             $('.order').hide();
             // add No Orders text
             $(".no-orders").show();
-            // we have no longer committed the changes
-            committed = false;
             orderID = -1;
-            // TODO tell the server that this client has deleted all the orders
-
+            // Tell the server that this client has deleted all the orders
+            if (committed)
+                sendOrders('DELETE');
+            committed = false;
         } else if ($('.order').length && committed) {
-            swapButtons("Commit the changes", 'btn-success', 'btn-primary', 'order', 'edit');
+            swapButtons("Update", 'btn-success', 'btn-primary', 'order', 'edit');
         }
 
         // enable the edit button
@@ -64,21 +65,20 @@ $(function() {
 
     // Clicking the order button (in the cart)
     $(document).on('click', '.order', function() {
-        // TODO send the list to the server
         if (ordersAmount > 0) {
-            jQuery.post('/orders', getOrdersSendRequest());
+            sendOrders("POST", (id) => {
+                clientID = id;
+                committed = true;
+            });
         }
         // disable the order button
         $('.order').prop('disabled', true);
-        // we've committed TODO make it in success
-        committed = true;
     });
 
     // Clicking the edit button (in the cart)
     $(document).on('click', '.edit', function() {
-        // TODO send the new list to the server
         if (ordersAmount > 0) {
-            
+            sendOrders("PUT");
         }
         // disable the edit button
         $('.edit').prop('disabled', true);
@@ -103,9 +103,26 @@ function getOrdersSendRequest() {
     for (let i = 0; i < lis.length; i++)
         orders[i] = lis[i].innerText;
 
-    return JSON.stringify({
-        name: name,
-        orders: orders
+    if (!clientID)
+        return {
+            "name": name,
+            "orders": orders
+        };
+    else return {
+            "id": clientID,
+            "name": name,
+            "orders": orders
+        };
+}
+
+function sendOrders(type, success) {
+    $.ajax({
+        type: type,
+        url: "/orders",
+        data: getOrdersSendRequest(),
+        success: (data) => {
+            success(data);
+        }
     });
 }
 
@@ -125,6 +142,11 @@ $('.apply-name').click(function() {
 			$(this).addClass('btn-secondary');
             $(this).html('Edit');
             name = inputValue;
+
+            // Change the name of the client with these orders
+            if (ordersAmount > 0 && committed) {
+                sendOrders('PUT');
+            }
 		}
 	} else if (confirm("Are you sure you want to edit your name?")) { // edit
 		// enable the input panel
@@ -135,9 +157,6 @@ $('.apply-name').click(function() {
 		$(this).removeClass('btn-secondary');
 		$(this).addClass('btn-success');
         $(this).html('&check;');
-        
-        // TODO tell the server to change the name of the client with these orders (NEED BACKEND)
-
     }
 
 	// show the menu if not shown already

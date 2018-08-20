@@ -38,7 +38,8 @@ $('.client').click(function(){
 	whoClicked('.client', function() {
 		$('.client-panel').slideDown(1000);
 	}, function() {
-		// TODO remove all the orders (NEED BACKEND)
+		if (committed)
+			sendOrders('DELETE');
 	});
 });
 

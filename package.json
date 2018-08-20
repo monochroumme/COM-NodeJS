@@ -4,10 +4,12 @@
   "description": "coffee order machine",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon app"
   },
   "dependencies": {
-    "express": "*"
+    "body-parser": "^1.18.3",
+    "express": "*",
+    "mongoose": "^5.2.9"
   },
   "author": "Nadir Abdullayev",
   "license": "ISC"
