@@ -2,6 +2,7 @@ let ordersAmount = 0;
 let orderID = -1;
 let clientID;
 let committed = false;
+let curInterval;
 let name;
 
 $(function() {
@@ -21,7 +22,8 @@ $(function() {
         // add the coffee to the cart-order-list
         $('.cart-order-list').append(
         '<li class="list-group-item cart-order" order-id=' + orderID + '>' +
-            coffeeType +
+            '<div class="order-status" status="pending">PENDING</div>' +
+            '<div class="order-coffee-type">' + coffeeType + '</div>' +
             '<button type="button" class="btn btn-danger delete-order"><img src="icons/trash.png" width="14px" height="14px"></button>' +
         '</li>');
         // if now we have 1 order, then show the order button and hide the No Orders text
@@ -29,38 +31,50 @@ $(function() {
             $('.no-orders').hide();
             $('.order').show();
         }
-        // if we've already committed the orders before and there isn't the edit button already, then change the order button to edit button
-        if (!$('.edit').length && committed) swapButtons("Update", 'btn-success', 'btn-primary', 'order', 'edit');
-        $('.edit').prop('disabled', false);
+        // if we've already committed the orders before and there isn't the update button already, then change the order button to update button
+        if (!$('.update').length && committed) swapButtons("Update", 'btn-success', 'btn-primary', 'order', 'update');
+        $('.update').prop('disabled', false);
+        $('.order').prop('disabled', false);
+
+        notify('green', 'Your ' + coffeeType.toLowerCase() + ' was added to the cart');
     });
 
     // Clicking the trash can button
     $(document).on('click', '.delete-order', function() {
         // delete it both from popover-body cart-order-list by using the specific id number of the parent of the clicked button
-        $('[order-id=' + $(this).parent().attr('order-id') + ']').remove();
-        ordersAmount--;
+        if ($('[order-id=' + $(this).parent().attr('order-id') + ']').children().eq(0).attr('status') == 'done') { // if it's status is done
+            $('[order-id=' + $(this).parent().attr('order-id') + ']').remove(); // then just remove it
+            notify('green', 'Your delivered order was successfully removed from the cart');
+        } else {
+            $('[order-id=' + $(this).parent().attr('order-id') + ']').remove();
+            ordersAmount--;
 
-        if (ordersAmount === 0) {
-            // if there's Edit button, then make it the order button
-            if ($('.edit').length)
-                swapButtons("Order", 'btn-primary', 'btn-success', 'edit', 'order');
-            // enable the order button
-            $('.order').prop('disabled', false);
-            // hide the order button
-            $('.order').hide();
-            // add No Orders text
-            $(".no-orders").show();
-            orderID = -1;
-            // Tell the server that this client has deleted all the orders
-            if (committed)
-                sendOrders('DELETE');
-            committed = false;
-        } else if ($('.order').length && committed) {
-            swapButtons("Update", 'btn-success', 'btn-primary', 'order', 'edit');
+            if (ordersAmount === 0) {
+                // if there's Update button, then make it the order button
+                if ($('.update').length)
+                    swapButtons("Order", 'btn-primary', 'btn-success', 'update', 'order');
+                // enable the order button
+                $('.order').prop('disabled', false);
+                // hide the order button
+                $('.order').hide();
+                // add No Orders text
+                $(".no-orders").show();
+                orderID = -1;
+                // Tell the server that this client has deleted all the orders
+                if (committed)
+                    sendOrders('DELETE', () => notify('green', 'Your order was successfully removed from the cart'));
+                committed = false;
+                clearInterval(curInterval);
+            } else if ($('.order').length && committed) {
+                swapButtons("Update", 'btn-success', 'btn-primary', 'order', 'update');
+            }
+
+            // enable the update button
+            $('.update').prop('disabled', false);
+
+            if (!committed)
+                notify('green', 'Your order was successfully removed from the cart');
         }
-
-        // enable the edit button
-        $('.edit').prop('disabled', false);
     });
 
     // Clicking the order button (in the cart)
@@ -69,19 +83,25 @@ $(function() {
             sendOrders("POST", (id) => {
                 clientID = id;
                 committed = true;
+                statusOrdered();
+                notify('green', "You've successfully ordered your coffee!");
+                curInterval = setInterval(checkForServed, 1000 * 5); // 60 secs = 1 min (check every 1 minute)
             });
         }
         // disable the order button
         $('.order').prop('disabled', true);
     });
 
-    // Clicking the edit button (in the cart)
-    $(document).on('click', '.edit', function() {
+    // Clicking the update button (in the cart)
+    $(document).on('click', '.update', function() {
         if (ordersAmount > 0) {
-            sendOrders("PUT");
+            sendOrders("PUT", () => {
+                notify('green', "You've successfully updated your order list!");
+                statusOrdered();
+            });
         }
-        // disable the edit button
-        $('.edit').prop('disabled', true);
+        // disable the update button
+        $('.update').prop('disabled', true);
     });
 });
 
@@ -98,10 +118,13 @@ function swapButtons(textToChange, clr1, clr2, class1, class2) {
 
 function getOrdersSendRequest() {
     let orders = [];
-    let lis = $("#cart-content li");
+    let $lis = $("#cart-content li");
 
-    for (let i = 0; i < lis.length; i++)
-        orders[i] = lis[i].innerText;
+    for (let i = 0; i < $lis.children().length; i++) {
+        if ($lis.eq(i).children().eq(0).attr('status') == 'pending' || $lis.eq(i).children().eq(0).attr('status') == 'ordered') {
+            orders[i] = $lis.eq(i).children().eq(1).text();
+        }
+    }
 
     if (!clientID)
         return {
@@ -123,7 +146,7 @@ function sendOrders(type, success) {
         success: (data) => {
             success(data);
         }
-    });
+    }).fail(() => notify('red', 'There was a problem while ordering :( Use Help to figure out what happened'));
 }
 
 // Clicking tick/edit button (My name is)
@@ -145,8 +168,8 @@ $('.apply-name').click(function() {
 
             // Change the name of the client with these orders
             if (ordersAmount > 0 && committed) {
-                sendOrders('PUT');
-            }
+                sendOrders('PUT', () => notify('green', "Your coffee was succesfully reordered to your name"));
+            } else notify('green', "Welcome to COM, " + name + "!");
 		}
 	} else if (confirm("Are you sure you want to edit your name?")) { // edit
 		// enable the input panel
@@ -173,3 +196,43 @@ $('.input-name').keypress(function(event){
       $('.apply-name').click();
     }
 });
+
+function checkForServed() {
+    $.ajax({
+        type: "GET",
+        url: "/checkorder/" + clientID,
+        success: (data) => {
+            if (data.status == 'SERVED') {
+                notify('green', "You've been served successfully. Thanks for using our services!");
+                console.log("You've been successfully served");
+                clearInterval(curInterval); // stop checking
+                committed = false;
+                clientID = undefined;
+                swapButtons("Order", 'btn-primary', 'btn-success', 'update', 'order');
+                // Make the served orders DONE in the cart
+                let $cart = $(".cart li");
+                for (let i = 0; i < $cart.children().length; i++) {
+                    for (let j = 0; j < data.orders.length; j++) {
+                        if ($cart.eq(i).children().eq(1).text() == data.orders[j]) { // if the coffee type in the cart is the same as in the orders
+                            $cart.eq(i).children().eq(0).html('DONE');
+                            $cart.eq(i).children().eq(0).attr('status', 'done');
+                            ordersAmount--;
+                        }
+                    }
+                }
+            } else if (data.status == 'NOTSERVED') return;
+            else {
+                clearInterval(curInterval); // stop checking
+                console.log('No response from server when checking for served. Make sure both the server and the db are up');
+            }
+        }
+    }).fail(() => {
+        clearInterval(curInterval); // stop checking
+        notify('red', 'There was an problem when checking if you were served :( Use Help to figure out what happened');
+    });
+}
+
+function statusOrdered() {
+    $('li .order-status').attr('status', 'ordered');
+    $('li .order-status').html('ORDERED');
+}

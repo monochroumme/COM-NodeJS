@@ -1,12 +1,25 @@
 #com {
 	color: black;
 	margin-top: 50px;
-	margin-bottom: 50px;
+	margin-bottom: 10px;
 	text-align: center;
+}
+
+#notifier {
+	display: none;
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, 0);
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 h2 {
 	padding-top: 60px;
+}
+
+#iam {
+	padding-top: 100px;
 }
 
 h7 {
@@ -68,7 +81,7 @@ button.btn-qm {
 	float: right;
 }
 
-button.order, button.edit {
+button.order, button.update {
 	margin-top: 8px;
 	height: 30px;
 	line-height: 0;
@@ -78,7 +91,11 @@ button.order, button.edit {
 
 li.list-group-item.cart-order {
 	display: inline;
-	padding-left: 42px;
+	text-align: center;
+}
+
+.order-coffee-type {
+	display: inline;
 }
 
 button.delete-order {
@@ -86,6 +103,7 @@ button.delete-order {
 	width: 22px;
 	height: 22px;
 	padding: 0;
+	margin-left: 40px;
 	line-height: 0;
 	border-radius: 11px;
 }
@@ -131,4 +149,10 @@ input.servant-input {
 
 button.servant-login {
 	width: 100px;
+}
+
+div.order-status {
+	color: gray;
+	float: left;
+	width: 62px;
 }

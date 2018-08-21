@@ -82,3 +82,24 @@ function whoClicked(thisBut, doAfterButAnim, doBeforeRefreshing) {
 		}
 	}
 }
+
+let notifying = false;
+function notify(clr, text) {
+	// Get rid of the current color
+	$('#notifier').removeClass('alert-success');
+	$('#notifier').removeClass('alert-danger');
+	// Add the needed color
+	if (clr == 'red')
+		$('#notifier').addClass('alert-danger');
+	else if (clr == 'green')
+		$('#notifier').addClass('alert-success');
+	// Change the text
+	$('#notifier').text(text);
+	// Animate
+	if (!notifying){
+		notifying = true;
+		$('#notifier').slideDown(500, () => {
+			$('#notifier').delay(5000).slideUp(500, () => notifying = false);
+		});
+	}
+}

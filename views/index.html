@@ -8,10 +8,11 @@
 	<body>
 		<header>
 			<h1 id="com">Coffee Order Machine</h1>
+			<div id="notifier" class="alert alert-success" role="alert">Hello there!</div>
 		</header>
 
 		<div class="container col-sm-12 text-center">
-			<h2>I am</h2>
+			<h2 id='iam'>I am</h2>
 			<div class="btn-group" role="group" aria-label="Who I am">
 				<button type="button" class="btn btn-success client">A client</button>
 				<button type="button" class="btn btn-danger servant">A servant</button>
@@ -117,7 +118,7 @@
 
 <!-- cart in the popover -->
 <div id="cart-content" style="display: none">
-	<div>
+	<div class="cart">
 		<h5>Orders</h5>
 		<h7 class="no-orders">No Orders</h7>
 		<ul class="list-group list-group-flush cart-order-list"></ul>

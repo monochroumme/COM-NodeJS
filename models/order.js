@@ -8,6 +8,10 @@ const orderSchema = new mongoose.Schema({
     orders: {
         type: [String],
         required: true
+    },
+    served: { 
+        type: Boolean,
+        required: true
     }
 }, {
     versionKey: false
