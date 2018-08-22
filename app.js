@@ -88,24 +88,24 @@ app.delete('/orders', (req, res) => {
 });
 
 app.get('/checkorder/:id', (req, res) => {
-    Order.findById(req.params.id, (err, client) => {
+  Order.findById(req.params.id, (err, client) => {
+    if (err) {
+      res.status(400).send(err);
+      console.log(err);
+    } else if (client.served) {
+      Order.findByIdAndRemove(req.params.id, (err, client) => {
         if (err) {
-            res.status(400).send(err);
-            console.log(err);
-        } else if (client.served) {
-            Order.findByIdAndRemove(req.params.id, (err, client) => {
-                if (err) {
-                    res.status(400).send(err);
-                    console.log(err);
-                } else {
-                    res.status(200).json({ status: 'SERVED', orders: client.orders });
-                    console.log(client.name + '#' + client.id + ' has been successfully served and removed from the db');
-                }
-            });
+          res.status(400).send(err);
+          console.log(err);
         } else {
-            res.status(200).json({ status: 'NOTSERVED' });
+          res.status(200).json({ status: 'SERVED', orders: client.orders });
+          console.log(client.name + '#' + client.id + ' has been successfully served and removed from the db');
         }
-    });
+      });
+    } else {
+      res.status(200).json({ status: 'NOTSERVED' });
+    }
+  });
 });
 
 // Finally, listening to the port

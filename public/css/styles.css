@@ -103,11 +103,11 @@ button.delete-order {
 	width: 22px;
 	height: 22px;
 	padding: 0;
-	margin-left: 40px;
+	margin-left: 41px;
 	line-height: 0;
 	border-radius: 11px;
 }
-						
+
 .client-panel, .servant-panel, .card-columns.menu, button.menu {
 	display: none;
 }
