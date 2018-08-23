@@ -156,3 +156,7 @@ div.order-status {
 	float: left;
 	width: 62px;
 }
+
+ul.qm {
+	text-align: left;
+}

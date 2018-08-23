@@ -8,8 +8,8 @@ let name;
 $(function() {
   // Clicking the cart popover
   $('.btn-cart').popover({
-        html: true,
-        'content': () => { return $('#cart-content').html(); }
+    html: true,
+    'content': () => { return $('#cart-content').html(); }
 	});
 
   // Clicking 'Add to Cart' Button
@@ -51,9 +51,11 @@ $(function() {
           swapButtons();
         }
         // enable the order button
-        $('.order').prop('disabled', false);
+        $('.order')
+          .prop('disabled', false)
+        .addBack()
         // hide the order button
-        $('.order').hide();
+          .hide();
         // show No Coffee To Order text
         $(".no-orders").show();
         // reset the orderID so it wouldn't go to infinity
@@ -124,13 +126,18 @@ function swapButtons() {
       class1 = 'update';
       class2 = 'order';
     }
-    // change the text
-    $('.' + class1).text(textToChange);
-    // change the color
-    $('.' + class1).removeClass(clr1);
-    $('.' + class1).addClass(clr2);
-    // remove the original class and adding the new class
-    $('.' + class1).addClass(class2);
+
+    $('.' + class1)
+      // change the text
+      .text(textToChange)
+    .addBack()
+      // change the color
+      .removeClass(clr1)
+    .addBack()
+      .addClass(clr2)
+    .addBack()
+      // remove the original class and adding the new class
+      .addClass(class2);
     $('.' + class2).removeClass(class1);
 }
 
@@ -179,11 +186,16 @@ $('.apply-name').click(function() {
 			// disable the input panel
 			$('.input-name').prop('disabled', true);
 			// make check button the edit button and change it's colour to gray
-			$(this).removeClass('apply-name');
-			$(this).addClass('edit-name');
-			$(this).removeClass('btn-success');
-			$(this).addClass('btn-secondary');
-      $(this).html('Edit');
+			$(this)
+        .removeClass('apply-name')
+      .addBack()
+			   .addClass('edit-name')
+       .addBack()
+  			.removeClass('btn-success')
+      .addBack()
+			   .addClass('btn-secondary')
+       .addBack()
+         .html('Edit');
       name = inputValue;
 
       // Change the name of the client with these orders
@@ -195,11 +207,16 @@ $('.apply-name').click(function() {
 		// enable the input panel
 		$('.input-name').prop('disabled', false);
 		// make edit button the check button and change it's colour to green
-		$(this).removeClass('edit-name');
-		$(this).addClass('apply-name');
-		$(this).removeClass('btn-secondary');
-		$(this).addClass('btn-success');
-    $(this).html('&check;');
+		$(this)
+      .removeClass('edit-name')
+    .addBack()
+    	.addClass('apply-name')
+    .addBack()
+    	.removeClass('btn-secondary')
+    .addBack()
+    	.addClass('btn-success')
+    .addBack()
+      .html('&check;');
   }
 
 	// show the menu if not shown already
@@ -232,16 +249,18 @@ function checkForServed() {
           swapButtons();
         }
         // enable Order button
-        $('.order').prop('disabled', false);
-        // hide Order button
-        $('.order').hide();
+        $('.order')
+          .prop('disabled', false)
+        .addBack()
+          // hide Order button
+          .hide();
         // show No Coffee to Order
         $('.no-orders').show();
         // Make the served orders DONE in the cart
         let $cart = $(".cart li");
         for (let i = 0; i < data.orders.length; i++) {
           for (let j = 0; j < $cart.children().length; j++) {
-            if ($cart.eq(j).children().eq(1).text() == data.orders[i]) { // if the coffee type in the cart is the same as in the orders
+            if ($cart.eq(j).children().eq(0).attr('status') == 'ordered' && $cart.eq(j).children().eq(1).text() == data.orders[i]) { // if the coffee type in the cart is the same as in the orders
               $cart.eq(j).children().eq(0).html('DONE');
               $cart.eq(j).children().eq(0).attr('status', 'done');
               // decrease the ordersAmount only once by checking if the order is in the Cart

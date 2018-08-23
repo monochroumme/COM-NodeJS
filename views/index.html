@@ -23,7 +23,7 @@
 			<h2>My name is</h2>
 
 			<div class="my-name-panel">
-				<button type="button" class="btn btn-dark btn-cart menu" data-container="body" data-toggle="popover" data-placement="bottom">
+				<button type="button" class="btn btn-dark btn-cart menu" data-container="body" data-toggle="popover" data-placement="right">
 					<img src="icons/cart.png" width="24px" height="24px">
 				</button>
 
@@ -128,10 +128,11 @@
 
 <!-- ? in the popover -->
 <div id="qm-content" style="display: none">
-	<div class="qm">
-		<h5>Help</h5>
-		<p>
-			<!-- TODO -->
-		</p>
-	</div>
+	<h5>Help</h5>
+	<ul class="qm">
+		<li>Before you start ordering stuff make sure that both your NodeJS server and your <a href='https://www.mongodb.com/'>MongoDB</a> are up (Get MongoDB -> Community Center)</li>
+		<li>If an error has occured check both your NodeJS console and your browser's console</li>
+		<li>Before you leave the website, please, click 'A client' button (which will turn to &Cross;) to discard all the changes which will remove all of your orders from the database
+		<br>If you don't do that, your name will still remain in the db and our servants will find your house and make you pay for your orders</li>
+	</ul>
 </div>

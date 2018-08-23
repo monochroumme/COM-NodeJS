@@ -9,27 +9,35 @@ $(function() {
 	hoverOver('.client', 'btn-success', 'A client');
 	hoverOver('.servant', 'btn-danger', 'A servant');
 
-    // Hovering over the 'chosen' button
-    function hoverOver(button, origClr, btnText) {
-    	$(button).hover(function() {
-			if ($(this).hasClass('chosen')) {
-	    		$(this).html('&Cross;');
-				$(this).css({
-	      			'font-size': '20px',
-	      			'padding': '3px'
-				});
-				$(this).removeClass(origClr);
-				$(this).addClass('btn-secondary');
-			}
-    	}, function() {
-			$(this).html(btnText);
-			$(this).css({
+  // Hovering over the 'chosen' button
+  function hoverOver(button, origClr, btnText) {
+  	$(button).hover(function() {
+		if ($(this).hasClass('chosen')) {
+  		$(this)
+				.html('&Cross;')
+			.addBack()
+				.css({
+  			'font-size': '20px',
+  			'padding': '3px'
+			})
+			.addBack()
+				.removeClass(origClr)
+			.addBack()
+				.addClass('btn-secondary');
+		}
+  	}, function() {
+		$(this)
+			.html(btnText)
+		.addBack()
+			.css({
 				'font-size': '1rem',
 				'padding': '6px 12px'
-			});
-			$(this).removeClass('btn-secondary');
-			$(this).addClass(origClr);
-    	});
+			})
+		.addBack()
+			.removeClass('btn-secondary')
+		.addBack()
+			.addClass(origClr);
+  	});
 	}
 });
 
@@ -56,23 +64,25 @@ function whoClicked(thisBut, doAfterButAnim, doBeforeRefreshing) {
 	if (thisBut === '.client') oppBut = '.servant';
 	else if (thisBut === '.servant') oppBut = '.client';
 
-	if (!$(thisBut).hasClass('chosen')){
-		$(oppBut).animate({ 
-				width: 0,
-				padding: 0,
-				margin: 0,
-				border: 0
-			}, 1000, function(){ // callback
-			$(oppBut).css({
-				'display': 'none'
-			});
-			$(thisBut).css({
+	if (!$(thisBut).hasClass('chosen')) {
+		$(oppBut).animate({
+			width: 0,
+			padding: 0,
+			margin: 0,
+			border: 0
+		}, 1000, function(){
+		$(oppBut).css({
+			'display': 'none'
+		});
+		$(thisBut)
+			.css({
 				'border-radius': '.25rem'
-			});
-			$(thisBut).toggleClass("chosen");
+			})
+		.addBack()
+			.toggleClass("chosen");
 
-			if (doAfterButAnim && typeof(doAfterButAnim) === "function")
-				doAfterButAnim();
+		if (doAfterButAnim && typeof(doAfterButAnim) === "function")
+			doAfterButAnim();
 		});
 	} else {
 		if (confirm("Are you sure you want to return back discarding all the changes?")) {
@@ -86,8 +96,10 @@ function whoClicked(thisBut, doAfterButAnim, doBeforeRefreshing) {
 let notifying = false;
 function notify(clr, text) {
 	// Get rid of the current color
-	$('#notifier').removeClass('alert-success');
-	$('#notifier').removeClass('alert-danger');
+	$('#notifier')
+		.removeClass('alert-success')
+	.addBack()
+		.removeClass('alert-danger');
 	// Add the needed color
 	if (clr == 'red')
 		$('#notifier').addClass('alert-danger');
