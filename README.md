@@ -16,8 +16,9 @@ If you want to test out my app on your machine, you can follow these instruction
 The *unique ID* mentioned before is used for 2 reasons: to differ people with the same names and to not let anyone else edit someone else's order by typing their name and ordering something else. **Be careful**, if you reload the page or just leave it, your name and orders will still be in the database and it'll be shown to the servants, however, your ID will be lost and you'll never know what it is unless you access the database itself and look it up or delve into the servants' html code after you log in, *so* don't rage quit. If you want to quit and delete your orders at the same time just click *'A client'* again (which will turn into x). It will delete your orders and your name from the database and reload your page, after that you can quit.  
 After you order coffee, your browser will check if you were served every 20 seconds and it will tell you when you'll be eventually served. All served coffee will be marked as *DONE*. Also,  
 *PENDING* means you've added an order but haven't ordered it yet.  
-*ORDERED* means that you've ordered your coffee but you haven't been served yet.  
-**Servant.** ***To log in a servant:*** use  
+*ORDERED* means that you've ordered your coffee but you haven't been served yet.    
+  
+**Servant.** ***To log in as a servant:*** use  
 Username: *admin*  
 Password: *youllneverguess*  
 When you're a servant, you can serve the clients by ticking the checkbox by their order lists. The orders of the clients *won't* be deleted from servants' tables until they are marked as *DONE* on the clients UIs. If someone has left without deleting his orders from the database, then the only way to delete that order is to use this command in your *mongo shell*: (make sure to `use com` before you write this)  
