@@ -18,10 +18,10 @@ After you order coffee, your browser will check if you were served every 20 seco
 *PENDING* means you've added an order but haven't ordered it yet.  
 *ORDERED* means that you've ordered your coffee but you haven't been served yet.    
   
-**Servant.** ***To log in as a servant:*** use  
+**Servant.** ***To log in as a servant** use:*  
 Username: *admin*  
 Password: *youllneverguess*  
-When you're a servant, you can serve the clients by ticking the checkbox by their order lists. The orders of the clients *won't* be deleted from servants' tables until they are marked as *DONE* on the clients UIs. If someone has left without deleting his orders from the database, then the only way to delete that order is to use this command in your *mongo shell*: (make sure to `use com` before you write this)  
+When you're a servant, you can serve the clients by ticking the checkbox by their order lists. The orders of the clients *won't* be deleted from servants' tables until they are marked as *DONE* on the clients UIs. If someone has left without deleting his/her orders from the database, then the only way to delete that order is to use this command in your *mongo shell*: (make sure to `use com` before you write this)  
 `db.orders.find({}).pretty()` - this is to find the ID of the client that's rage quit  
 `db.orders.remove({_id: ObjectId("put the found ID here")})` - should say *nRemoved: 1*  
 **Be careful**, *do not* remove IDs of clients who have their COM pages opened, it may cause an error and the server will be shut down until you rerun it again using `npm run dev`. To stop the server just press CTRL+C (COMMAND+C), same with the *mongo shell*.  
