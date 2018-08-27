@@ -12,6 +12,13 @@ $(function() {
     'content': () => { return $('#cart-content').html(); }
 	});
 
+  // Clicking the ? popover
+	$('.btn-qm').popover({
+		html: true,
+    'content': () => { return $('#qm-client-content').html() },
+		container: 'body' // making an adjustment to be able to change the width of the popover without breaking it
+ 	});
+
   // Clicking 'Add to Cart' Button
   $('.add-to-cart').click(function() {
     // increase how many orders we have and the orderID

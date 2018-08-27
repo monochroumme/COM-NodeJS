@@ -1,15 +1,8 @@
 $(function() {
-	// Clicking the ? popover
-	$('.btn-qm').popover({
-		html: true,
-        'content': () => { return $('#qm-content').html() },
-		container: 'body' // making an adjustment to be able to change the width of the popover without breaking it
- 	});
-
 	hoverOver('.client', 'btn-success', 'A client');
 	hoverOver('.servant', 'btn-danger', 'A servant');
 
-  // Hovering over the 'chosen' button
+  // Hovering over the 'chosen' button and making it x
   function hoverOver(button, origClr, btnText) {
   	$(button).hover(function() {
 		if ($(this).hasClass('chosen')) {
@@ -44,17 +37,21 @@ $(function() {
 // Clicking 'A client' button
 $('.client').click(function(){
 	whoClicked('.client', function() {
-		$('.client-panel').slideDown(1000);
-	}, function() {
+		$('#client-panel').slideDown(1000);
+	}, function(next) {
 		if (committed)
 			sendOrders('DELETE');
+		next();
 	});
 });
 
 // Clicking 'A servant' button
 $('.servant').click(function(){
 	whoClicked('.servant', function() {
-		$('.servant-panel').slideDown(1000);
+		$('#servant-panel').slideDown(1000);
+	}, function(next) {
+		$.post('/servant/logout', { "id": sessionID});
+		next();
 	});
 });
 
@@ -86,9 +83,11 @@ function whoClicked(thisBut, doAfterButAnim, doBeforeRefreshing) {
 		});
 	} else {
 		if (confirm("Are you sure you want to return back discarding all the changes?")) {
-			if (doBeforeRefreshing && typeof(doBeforeRefreshing) === 'function')
-				doBeforeRefreshing();
-			location.reload(); // refresh the page
+			if (doBeforeRefreshing && typeof(doBeforeRefreshing) === 'function') {
+				doBeforeRefreshing(() => {
+					location.reload(); // refresh the page (callback)
+				});
+			} else location.reload(); // refresh the page
 		}
 	}
 }

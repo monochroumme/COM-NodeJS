@@ -1,3 +1,9 @@
+@font-face { font-family: Roboto-Regular; src: url('../fonts/Roboto-Regular.ttf'); }
+
+body#general-font {
+	font-family: Roboto-Regular;
+}
+
 #com {
 	color: black;
 	margin-top: 50px;
@@ -12,6 +18,7 @@
 	transform: translate(-50%, 0);
 	padding-top: 5px;
 	padding-bottom: 5px;
+	max-width: 70%;
 }
 
 h2 {
@@ -103,13 +110,44 @@ button.delete-order {
 	width: 22px;
 	height: 22px;
 	padding: 0;
-	margin-left: 41px;
+	margin-left: 48px;
 	line-height: 0;
 	border-radius: 11px;
 }
 
-.client-panel, .servant-panel, .card-columns.menu, button.menu {
+#client-panel, #servant-panel, .card-columns.menu, button.menu, #servant-table {
 	display: none;
+}
+
+#servant-buttons {
+	display: block;
+	padding-top: 5px;
+	overflow: hidden;
+}
+
+#servant-qm, #servant-update {
+	width: 40px;
+	height: 40px;
+	border-radius: 20px;
+	margin: 10px 0;
+	bottom: 70px;
+	display: block;
+}
+
+#servant-update {
+	float: left;
+	padding: 2px;
+}
+
+#servant-qm {
+	float: right;
+	padding: 6px;
+}
+
+#servant-orderlist {
+	display: block;
+	max-height: 500px;
+  overflow-y: scroll;
 }
 
 .my-name-panel {
@@ -151,10 +189,14 @@ button.servant-login {
 	width: 100px;
 }
 
+div.order-coffee {
+	width: 240px;
+}
+
 div.order-status {
 	color: gray;
 	float: left;
-	width: 62px;
+	width: 70px;
 }
 
 ul.qm {

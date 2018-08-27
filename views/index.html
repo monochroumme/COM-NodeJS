@@ -5,7 +5,7 @@
 		<link rel="stylesheet" type="text/css" href="css/styles.css">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	</head>
-	<body>
+	<body id="general-font">
 		<header>
 			<h1 id="com">Coffee Order Machine</h1>
 			<div id="notifier" class="alert alert-success" role="alert">Hello there!</div>
@@ -19,7 +19,7 @@
 			</div>
 		</div>
 
-		<div class="container text-center client-panel">
+		<div id="client-panel" class="container text-center">
 			<h2>My name is</h2>
 
 			<div class="my-name-panel">
@@ -94,18 +94,32 @@
 			</div>
 		</div>
 
-		<div class="container text-center servant-panel">
+		<div id="servant-panel" class="container text-center">
 			<form id="servant-login-form">
 				<div class="form-group">
 					<label for="servant-username" id='username-input'>Username</label>
-					<input type="text" class="form-control servant-input" placeholder="Enter username">
+					<input type="text" class="form-control servant-input servant-username" placeholder="Enter username">
 				</div>
 				<div class="form-group">
 					<label for="servant-password">Password</label>
-					<input type="password" class="form-control servant-input" placeholder="Enter password">
+					<input type="password" class="form-control servant-input servant-password" placeholder="Enter password">
 				</div>
-				<button type="button" class="btn btn-primary servant-login">Log in</button>
+				<button id="servant-login" type="button" class="btn btn-primary">Log in</button>
 			</form>
+
+			<div class="container">
+				<div id="servant-table">
+					<div id="servant-buttons">
+						<button id="servant-update" type="button" class="btn btn-light">
+							<img src="icons/update.png" width="32px" height="32px">
+						</button>
+						<button id="servant-qm" type="button" class="btn btn-dark" data-container="body" data-toggle="popover" data-placement="left">
+							<img src="icons/qm.png" width="24px" height="24px">
+						</button>
+					</div>
+					<ul id="servant-orderlist" class="list-group"></ul>
+				</div>
+			</div>
 		</div>
 
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -113,6 +127,7 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
 		<script type="text/javascript" src="js/script.js"></script>
 		<script type="text/javascript" src="js/client.js"></script>
+		<script type="text/javascript" src="js/servant.js"></script>
 	</body>
 </html>
 
@@ -126,13 +141,27 @@
 	</div>
 </div>
 
-<!-- ? in the popover -->
-<div id="qm-content" style="display: none">
+<!-- ? in the popover of the client -->
+<div id="qm-client-content" style="display: none">
 	<h5>Help</h5>
 	<ul class="qm">
 		<li>Before you start ordering stuff make sure that both your NodeJS server and your <a href='https://www.mongodb.com/'>MongoDB</a> are up (Get MongoDB -> Community Center)</li>
 		<li>If an error has occured check both your NodeJS console and your browser's console</li>
 		<li>Before you leave the website, please, click 'A client' button (which will turn to &Cross;) to discard all the changes which will remove all of your orders from the database
 		<br>If you don't do that, your name will still remain in the db and our servants will find your house and make you pay for your orders</li>
+	</ul>
+</div>
+
+<!-- ? in the popover of the servant -->
+<div id="qm-servant-content" style="display: none">
+	<h5>Help</h5>
+	<ul class="qm">
+		<li>Your table gets updated every 20 seconds but if you want to, you can click on the roundy thing with the arrows left to this button to update the table yourself</li>
+		<li>Make sure to click 'A servant' button (which will turn into &Cross;) to make sure that you log out of the db sessions if don't want to make it messy in there. Anyways, you can clean it yourself by opening the mongo shell and using the next commands:<br>
+		>use com<br>
+		>db.sessions.deleteMany({})</li>
+		<li>If you get any errors make sure both your NodeJS server and your <a href='https://www.mongodb.com/'>MongoDB</a> are up (Get MongoDB -> Community Center)</li>
+		<li>Also, you can check both your NodeJS's and browser's consoles and see the errors</li>
+		<li>No table means no orders</li>
 	</ul>
 </div>

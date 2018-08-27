@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
-    name: { 
+    name: {
         type: String,
         required: true
     },
@@ -9,12 +9,13 @@ const orderSchema = new mongoose.Schema({
         type: [String],
         required: true
     },
-    served: { 
+    served: {
         type: Boolean,
         required: true
     }
 }, {
-    versionKey: false
+    versionKey: false,
+    collection: 'orders'
 });
 
 const Order = module.exports = mongoose.model('Order', orderSchema);
