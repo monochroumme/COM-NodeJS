@@ -6,9 +6,10 @@ You can either choose you're a client or a servant. When you're a client, you ca
 If you want to test out my app on your machine, you can follow these instructions:
 1. Either clone or download the files (look up google how to clone if you don't know how)
 2. Unzip it in any folder you like and open your command line in that folder (cmd, terminal or whatever command app you have)
-3. For the app to work you have to install MongoDB, Node.js, and npm on your device (after you install MongoDB, make sure that it's running (mongod), otherwise you'll get an error after the line *Listening to port 3000*)
+3. For the app to work you have to install MongoDB, Node.js (v16), and npm on your device (after you install MongoDB, make sure that it's running (mongod), otherwise you'll get an error after the line *Listening to port 3000*)
 4. After you've done installing them, type in your command line (opened in the folder where the app.js file is) this code:  
-`npm run dev` (all the modules are already included)
+`npm install`
+`npm run dev`
 5. Open a new tab in your browser and go to http://localhost:3000
 
 ## How to use and how it works ##
