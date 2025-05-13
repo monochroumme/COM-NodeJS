@@ -1,95 +1,87 @@
 const username = 'admin';
 const password = 'youllneverguess';
 
-let curOrders;
-
 module.exports = function(app, Order, Session) {
   // Routes
-  app.post('/servant/login', (req, res) => {
+  app.post('/servant/login', async (req, res) => {
     if (req.body.username == username && req.body.password == password) {
       let session = new Session();
-      session.save((err, servant) => {
-        if (err) {
-            console.log(err);
-            res.status(500).send(err);
-        } else {
-            // Give the servant his cookie with the session ID
-            res.status(200).send(servant.id);
-            console.log('A new servant#' + servant.id + ' has logged into the system');
-        }
-      });
+      try {
+        const servant = await session.save();
+        // Give the servant his cookie with the session ID
+        res.status(200).send(servant.id);
+        console.log('A new servant#' + servant.id + ' has logged into the system');
+      } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+      }
     } else {
-      res.status('401').send('NAH');
+      res.status(401).send('NAH');
     }
   });
 
-  app.post('/servant/logout', (req, res) => {
-    Session.findByIdAndRemove(req.body.id, (err, servant) => {
-      if (err) {
-        res.status(400).send(err);
-        console.log(err);
-      }
-      else {
-        res.status(200).send('Logged out');
-        console.log('The servant#' + servant.id + ' has logged out');
-      }
-    });
+  app.post('/servant/logout', async (req, res) => {
+    try {
+      const servant = await Session.findByIdAndDelete(req.body.id);
+      res.status(200).send('Logged out');
+      console.log('The servant#' + servant.id + ' has logged out');
+    } catch (error) {
+      res.status(400).send(error);
+      console.log(error);
+    }
   });
 
-  app.post('/servant/orders', (req, res) => {
-    Session.findById(req.body.id, (err, session) => {
-      if (err) {
-        res.status(401).send(err);
-        console.log(err);
-      } else {
-        Order.find({}, (err, orders) => {
-          if (err) {
-            res.status(500).send(err);
-            console.log(err);
-          } else {
-            let curI = 0,
+  app.post('/servant/orders', async (req, res) => {
+    try {
+      const session = await Session.findById(req.body.id)
+      if (session) {
+        try {
+          const orders = await Order.find({});
+
+          let curI = 0,
             curOrders = [];
 
-            orders.forEach((order) => {
-              curOrders[curI] = order;
-              curI++;
-            });
+          orders.forEach((order) => {
+            curOrders[curI] = order;
+            curI++;
+          });
 
-            res.status(200).send(curOrders);
-          }
-        });
+          res.status(200).send(curOrders);
+        } catch (error) {
+          res.status(500).send(error);
+          console.log(error);
+        }
       }
-    })
+    } catch (error) {
+      res.status(401).send(error);
+      console.log(error);
+    }
   });
 
-  app.post('/servant/delete', (req, res) => {
-    console.log(req.body);
-    Session.findById(req.body.id, (err, session) => {
-      if (err) {
-        res.status(500).send(err);
-        console.log(err);
-      } else {
-        Order.findById(req.body.clientID, (err, order) => {
-          if (err) {
-            res.status(500).send(err);
-            console.log(err);
-          } else {
-            if (order && order != null) {
-              order.served = true;
-              console.log(order);
-              order.save(err => {
-                  if (err) {
-                      res.status(500).send(err);
-                      console.log(err);
-                  } else {
-                      res.status(200).send('Client was successfully served');
-                      console.log(order.name + '#' + order.id + ' was successfully served by servant#' + session.id);
-                  }
-              });
-            }
+  app.post('/servant/serve', async (req, res) => {
+    try {
+      const session = await Session.findById(req.body.id);
+      try {
+        const order = await Order.findById(req.body.clientID);
+        if (order && order != null) {
+          order.served = true;
+          console.log(order);
+          try {
+            await order.save();
+            res.status(200).send('Client was successfully served');
+            console.log(order.name + '#' + order.id + ' was successfully served by servant#' + session.id);
+          } catch (error) {
+            res.status(500).send(error);
+            console.log(error);
           }
-        });
+        }
+      } catch (error) {
+        res.status(500).send(error);
+        console.log(error);
       }
-    });
+    } catch (error) {
+      res.status(500).send(error);
+      console.log(error);
+    }
   });
 }

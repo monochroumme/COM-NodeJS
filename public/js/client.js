@@ -243,7 +243,7 @@ $('.input-name').keypress(function(event){
 
 function checkForServed() {
   $.ajax({
-    type: "GET",
+    type: "POST",
     url: "/checkorder/" + clientID,
     success: (data) => {
       if (data.status == 'SERVED') {

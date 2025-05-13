@@ -44,7 +44,7 @@ $(function() {
   $(document).on('click', '.checkbox', () => {
     $.ajax({
       type: 'POST',
-      url: '/servant/delete',
+      url: '/servant/serve',
       data: {
         "id": sessionID,
         "clientID": document.activeElement.id
