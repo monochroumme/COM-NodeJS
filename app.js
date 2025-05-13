@@ -26,8 +26,8 @@ db.on('error', (err) => {
 let Order = require('./models/order');
 let Session = require('./models/session');
 
-const client = require('./routes/client')(app, Order);
-const servant = require('./routes/servant')(app, Order, Session);
+require('./routes/client')(app, Order);
+require('./routes/servant')(app, Order, Session);
 
 // Listening to the port
 app.listen(app.get('port'), () => console.log("Listening on port " + app.get('port')));
