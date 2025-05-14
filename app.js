@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 // Connecting to the db
-mongoose.connect('mongodb://localhost/com', { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost/com');
 const db = mongoose.connection;
 // Check for connection
 db.once('open', () => {
