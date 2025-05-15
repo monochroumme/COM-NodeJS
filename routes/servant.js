@@ -3,7 +3,7 @@ const password = 'youllneverguess';
 
 module.exports = function(app, Order, Session) {
   // Routes
-  app.post('/servant/login', async (req, res) => {
+  app.post('/api/v1/servant/login', async (req, res) => {
     if (req.body.username == username && req.body.password == password) {
       let session = new Session();
       try {
@@ -20,7 +20,7 @@ module.exports = function(app, Order, Session) {
     }
   });
 
-  app.post('/servant/logout', async (req, res) => {
+  app.post('/api/v1/servant/logout', async (req, res) => {
     try {
       const servant = await Session.findByIdAndDelete(req.body.id);
       res.status(200).send('Logged out');
@@ -31,7 +31,7 @@ module.exports = function(app, Order, Session) {
     }
   });
 
-  app.post('/servant/orders', async (req, res) => {
+  app.post('/api/v1/servant/orders', async (req, res) => {
     try {
       const session = await Session.findById(req.body.id)
       if (session) {
@@ -58,7 +58,7 @@ module.exports = function(app, Order, Session) {
     }
   });
 
-  app.post('/servant/serve', async (req, res) => {
+  app.post('/api/v1/servant/serve', async (req, res) => {
     try {
       const session = await Session.findById(req.body.id);
       try {

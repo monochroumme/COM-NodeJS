@@ -175,7 +175,7 @@ function getOrdersSendRequest() {
 function sendOrders(type, success) {
   $.ajax({
     type: type,
-    url: "/orders",
+    url: "/api/v1/orders",
     data: getOrdersSendRequest(),
     success: (data) => {
         success(data);
@@ -244,7 +244,7 @@ $('.input-name').keypress(function(event){
 function checkForServed() {
   $.ajax({
     type: "POST",
-    url: "/checkorder/" + clientID,
+    url: "/api/v1/checkOrder/" + clientID,
     success: (data) => {
       if (data.status == 'SERVED') {
         notify('green', "You've been served successfully. Thanks for using our services!");

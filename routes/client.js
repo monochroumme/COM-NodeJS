@@ -6,7 +6,7 @@ module.exports = function(app, Order) {
       res.sendFile(path.join(app.get('views'), '/index.html'));
   });
 
-  app.post('/orders', async (req, res) => {
+  app.post('/api/v1/orders', async (req, res) => {
       let order = new Order();
       order.name = req.body.name;
       order.orders = req.body.orders;
@@ -23,7 +23,7 @@ module.exports = function(app, Order) {
       }
   });
 
-  app.put('/orders', async (req, res) => {
+  app.put('/api/v1/orders', async (req, res) => {
     try {
       const client = await Order.findById(req.body.id);
       if (client.name != req.body.name) { // Change the name of the client
@@ -47,7 +47,7 @@ module.exports = function(app, Order) {
     }
   });
 
-  app.delete('/orders', async (req, res) => {
+  app.delete('/api/v1/orders', async (req, res) => {
     try {
       const client = await Order.findByIdAndDelete(req.body.id);
       res.status(200).send('Successfully deleted all the orders');
@@ -58,7 +58,7 @@ module.exports = function(app, Order) {
     }
   });
 
-  app.post('/checkorder/:id', async (req, res) => {
+  app.post('/api/v1/checkOrder/:id', async (req, res) => {
     try {
       const client = await Order.findById(req.params.id);
       if (client.served) {

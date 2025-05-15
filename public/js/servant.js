@@ -18,7 +18,7 @@ $(function() {
     if ($('.servant-username').val() !== '' && $('.servant-password').val() !== '') {
       $.ajax({
         type: 'POST',
-        url: '/servant/login',
+        url: '/api/v1/servant/login',
         data: {
           "username": $('.servant-username').val(),
           "password": $('.servant-password').val()
@@ -44,7 +44,7 @@ $(function() {
   $(document).on('click', '.checkbox', () => {
     $.ajax({
       type: 'POST',
-      url: '/servant/serve',
+      url: '/api/v1/servant/serve',
       data: {
         "id": sessionID,
         "clientID": document.activeElement.id
@@ -60,7 +60,7 @@ $(function() {
 function updateOrders() {
   $.ajax({
     type: 'POST',
-    url: '/servant/orders',
+    url: '/api/v1/servant/orders',
     data: {
       "id": sessionID
     },
